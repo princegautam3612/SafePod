@@ -1,0 +1,6 @@
+{
+  "name": "SafePod - Kinetic Road Safety Platform",
+  "description": "Fully functional mobile road safety telematics application with real-time GPS speed tracking, kinetic buffer monitoring, drive focus protection, squad leagues, and rewards for safe driving.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

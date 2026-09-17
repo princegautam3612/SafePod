@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment: { POSTGRES_DB: safedrive, POSTGRES_USER: safedrive, POSTGRES_PASSWORD: safedrive }
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U safedrive"], interval: 5s, timeout: 3s, retries: 10 }
+  redis: { image: redis:7-alpine }
+  api:
+    build: ./backend
+    environment: { DATABASE_URL: postgresql+asyncpg://safedrive:safedrive@db:5432/safedrive, REDIS_URL: redis://redis:6379/0, JWT_SECRET: local-development-secret-change-before-production, CORS_ORIGINS: http://localhost:3000 }
+    ports: ["8000:8000"]
+    depends_on: { db: { condition: service_healthy } }
+  web:
+    build: .
+    ports: ["3000:80"]
+    depends_on: [api]
+volumes: { postgres_data: {} }
